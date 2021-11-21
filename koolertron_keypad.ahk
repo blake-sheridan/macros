@@ -1,4 +1,4 @@
-;; Bindings for the ...
+;; Bindings for https://www.amazon.com/dp/B076LYKPX4?ref=ppx_yo2_dt_b_product_details&th=1
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
@@ -10,7 +10,7 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 
 windows := new Windows()
 
-;; The keypad is configured to send events as all modifiers + ...
+;; I've configured the keypad to send keypresses as hotkeys with all modifiers + ...
 ;;
 ;; X   W   V   U     T   S   R   Q
 ;; P   O   N   M     L   K   J   I

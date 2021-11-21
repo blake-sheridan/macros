@@ -8,39 +8,49 @@ class GenericWindow {
 
     ;; Activate the window
     activate() {
+        WinGet prev_id, , A
         my_id := this._id
         WinActivate, ahk_id %my_id%
+        this._prev_id := prev_id
     }
 
-    ;; Refresh the window
-    refresh() {
-        WinGet saved_id, , A
+    ;; Deactivate the window and return focus to previous window
+    deactivate() {
+        prev_id := this._prev_id
+        WinActivate, ahk_id %prev_id%
+    }
+
+    ;; Send input to the window by temporarily activating it
+    send(inputs) {
         this.activate()
-        this._send_refresh()
-        WinActivate ahk_id %saved_id%
+        SendInput %inputs%
+        this.deactivate()
     }
 
-    ;; Send inputs to perform a “refresh” as the activated window
-    _send_refresh() {
+    ;; Subclass API - refresh the window
+    refresh() {
         ; Generic implementation — do nothing
     }
 }
 
 
 class GenericBrowserWindow extends GenericWindow {
-    _send_refresh() {
-        Send ^R
+    refresh() {
+        this.send("^R")
     }
 }
 
 
 class GenericTerminalWindow extends GenericWindow {
-    _send_refresh() {
+    refresh() {
+        this.activate()
         Send ^a^k{Up} ; kill the current line then press up
         Sleep 50      ; wait for terminal to process history
         Send {Enter}  ; run the command
+        this.deactivate()
     }
 }
+
 
 ;; A container mapping keys to windows
 class Windows {
