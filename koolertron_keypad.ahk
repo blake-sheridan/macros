@@ -21,12 +21,12 @@ windows := new Windows()
 ;; T   N   H   B    F20 F14 F8  F2
 ;; S   M   G   A    F19 F13 F7  F1
 
-^!+X:: windows.assign_mouse("F6")
-^!+W:: windows.assign_mouse("F5")
-^!+V:: windows.assign_mouse("F4")
-^!+U:: windows.assign_mouse("F3")
-^!+T:: windows.assign_mouse("F2")
-^!+S:: windows.assign_mouse("F1")
+^!+F24:: windows.assign_mouse("F6")
+^!+F23:: windows.assign_mouse("F5")
+^!+F22:: windows.assign_mouse("F4")
+^!+F21:: windows.assign_mouse("F3")
+^!+F20:: windows.assign_mouse("F2")
+^!+F19:: windows.assign_mouse("F1")
 
 ^!+F12:: windows.get("F6").refresh()
 ^!+F11:: windows.get("F5").refresh()
