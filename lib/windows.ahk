@@ -52,6 +52,17 @@ class GenericTerminalWindow extends GenericWindow {
 }
 
 
+create_window(id_) {
+    ; Use the process name to pick the appropriate subclass
+    WinGet, process_name, ProcessName, ahk_id %id_%
+    Switch process_name {
+    case "chrome.exe": return new GenericBrowserWindow(id_)
+    case "Hyper.exe":  return new GenericTerminalWindow(id_)
+    default:           return new GenericWindow(id_)
+    }
+}
+
+
 ;; A container mapping keys to windows
 class Windows {
     _map := {}
@@ -77,16 +88,7 @@ class Windows {
     }
 
     _set(key, id_) {
-        ; Use the process name to pick the appropriate subclass
-        WinGet, process_name, ProcessName, ahk_id %id_%
-        Switch process_name {
-        case "chrome.exe":
-            win := new GenericBrowserWindow(id_)
-        case "Hyper.exe":
-            win := new GenericTerminalWindow(id_)
-        default:
-            win := new GenericWindow(id_)
-        }
+        win := create_window(id_)
         this._map[key] := win
         return win
     }
