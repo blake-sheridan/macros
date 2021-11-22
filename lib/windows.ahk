@@ -58,6 +58,7 @@ create_window(id_) {
     Switch process_name {
     case "chrome.exe": return new GenericBrowserWindow(id_)
     case "Hyper.exe":  return new GenericTerminalWindow(id_)
+    case "Tabby.exe":  return new GenericTerminalWindow(id_)
     default:           return new GenericWindow(id_)
     }
 }
