@@ -1,7 +1,7 @@
 class WindowReference {
-    __New(title_match) {
+    __New(process_name) {
         this._id := ""
-        this._title_match := title_match
+        this._process_name := process_name
     }
 
     ;; Activate the window
@@ -21,6 +21,7 @@ class WindowReference {
     ;; Send input to the window by temporarily activating it
     send(inputs) {
         this.activate()
+        Sleep 50
         SendInput %inputs%
         Sleep 50
         this.deactivate()
@@ -32,8 +33,15 @@ class WindowReference {
         Send ^c
         Sleep 50
         Send %command%
-        Sleep 50
         Send {Enter}
+        this.deactivate()
+    }
+
+    ;; Re-run the last command in a terminal window
+    run_last_command() {
+        this.activate()
+        Send ^a^k{!}{:}0{Enter}
+        Sleep 50
         this.deactivate()
     }
 
@@ -47,12 +55,12 @@ class WindowReference {
     _get_id() {
         my_id := this._id
         if (!my_id) {
-            title_match := this._title_match
+            process_name := this._process_name
             SetTitleMatchMode, 2
-            WinGet, my_id, ID, %title_match%
+            WinGet, my_id, ID, ahk_exe %process_name%
             this._id := my_id
             if (!my_id) {
-                Throw "no window matched title " . title_match
+                Throw "no window matched process " . process_name
             }
         }
         return my_id

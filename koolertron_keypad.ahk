@@ -8,9 +8,9 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 
 #Include lib\WindowReference.ahk
 
-browser := new WindowReference("Google Chrome")
-editor := new WindowReference("Sublime Text")
-terminal := new WindowReference("wsl")
+browser := new WindowReference("chrome.exe")
+editor := new WindowReference("sublime_text.exe")
+terminal := new WindowReference("WindowsTerminal.exe")
 
 saved_commands := ["", "", "", ""]
 
@@ -27,10 +27,17 @@ run_command(index) {
     }
 }
 
+save_and_run_last_command() {
+    global editor, terminal
+    editor.send("^xs")
+    Sleep 100
+    terminal.run_last_command()
+}
+
 ;; I've configured the keypad to send keypresses as hotkeys with Ctrl+Alt+Shift+
 ;; a character (issues with function keys)
 ;;
-;; ____  ____  first row is reserved
+;; ____  ./;'
 ;; 7890  -=[]
 ;; YZ12  3456
 ;;
@@ -38,25 +45,37 @@ run_command(index) {
 ;; IJKL  MNOP
 ;; ABCD  EFGH
 
-
 ;; This layout has the keypad just left of the keyboard and the keypad is
 ;; used exclusively with the left hand.
 
+^!+':: Send {Volume_Up}
+^!+;:: Send {Volume_Down}
+^!+/:: Send {Volume_Mute}
+
+
+;^!+7::
+;^!+8::
+;^!+9::
+;^!+0::
+
+;^!+-::
+;^!+=::
+;^!+[::
+;^!+]::
+
 ^!+A:: terminal.set_from_mouse()
-^!+B:: save_command(3)
-^!+C:: save_command(2)
-^!+D:: save_command(1)
+;^!+B:: save_command(3)
+^!+C:: save_command(1)
+^!+D:: run_command(1)
 
-^!+E:: run_command(3)
-^!+F:: run_command(2)
-^!+G:: run_command(1)
-^!+H:: terminal.activate()
-
+^!+E:: editor.send("^xs")
+;^!+F:: 
+^!+G:: terminal.activate()
+^!+H:: save_and_run_last_command()
 
 ^!+I:: editor.set_from_mouse()
 ;;
 ^!+P:: editor.activate()
-
 
 ^!+Q:: browser.set_from_mouse()
 ;;
